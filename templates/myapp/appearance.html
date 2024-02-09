@@ -1,0 +1,96 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class='question' style='text-align:left; margin-left:50px;'>
+        더 멋진 인증샷 생성을 위해 <br>
+        외형 정보를 등록할 수 있어요. <br>
+        <div class='subtext'>
+            {% if user.username == None %}{{ user.login_id }}
+            {% else %}{{ user.username }}{% endif %}님을 가장 잘 묘사하는 키워드를 한 개씩 골라 주세요. </div>
+    </div> <br>
+
+    <form class="appearance" method="post">
+        {% csrf_token %}
+        
+        <div style="text-align:left; margin-left:30px;"> <!-- 제출버튼 제외 문항들 좌측정렬 -->
+
+        <div class="question"> 헤어 색상 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="hair_color" id="검정" value="black">
+            <label for="검정" style="text-align:center;"> 검정 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="진갈색" value="dark brown">
+            <label for="진갈색" style="text-align:center;"> 진갈색 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="연갈색" value="light brown">
+            <label for="연갈색" style="text-align:center;"> 연갈색 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="노랑" value="yellow">
+            <label for="노랑" style="text-align:center;"> 노랑 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="파랑" value="blue">
+            <label for="파랑" style="text-align:center;"> 파랑 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="빨강" value="red">
+            <label for="빨강" style="text-align:center;"> 빨강 <br>ㅤ</label>
+
+            <input type="radio" name="hair_color" id="흰색" value="white">
+            <label for="흰색" style="text-align:center;"> 흰색 <br>ㅤ</label>
+        </div><br>
+
+        <div class="question"> 헤어 스타일 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="hair_style" id="생머리" value="non-permed">
+            <label for="생머리" style="text-align:center;"> 생머리 <br>ㅤ</label>
+
+            <input type="radio" name="hair_style" id="파마머리" value="curly">
+            <label for="파마머리" style="text-align:center;"> 파마머리 <br>ㅤ</label>
+        </div><br>
+
+        <div class="question"> 헤어 기장 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="hair_length" id="짧다" value="short">
+            <label for="짧다" style="text-align:center;"> 짧다 <br>ㅤ</label>
+
+            <input type="radio" name="hair_length" id="중간" value="medium-length">
+            <label for="중간" style="text-align:center;"> 중간 <br>ㅤ</label>
+
+            <input type="radio" name="hair_length" id="길다" value="long">
+            <label for="길다" style="text-align:center;"> 길다 <br>ㅤ</label>
+        </div><br>
+
+        <div class="question"> 앞머리 유무 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="hair_bangs" id="앞머리 있다" value="with">
+            <label for="앞머리 있다" style="text-align:center;"> 있다 <br>ㅤ</label>
+
+            <input type="radio" name="hair_bangs" id="앞머리 없다" value="without">
+            <label for="앞머리 없다" style="text-align:center;"> 없다 <br>ㅤ</label>
+        </div><br>
+
+        <div class="question"> 쌍꺼풀 유무 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="eyelids" id="쌍꺼풀 있다" value="double eyelids">
+            <label for="쌍꺼풀 있다" style="text-align:center;"> 있다 <br>ㅤ</label>
+
+            <input type="radio" name="eyelids" id="쌍꺼풀 없다" value="single eyelid">
+            <label for="쌍꺼풀 없다" style="text-align:center;"> 없다 <br>ㅤ</label>
+        </div><br>
+
+        <div class="question"> 안경 </div>
+        <div class="radio-button-round">
+            <input type="radio" name="glasses" id="착용" value="glasses">
+            <label for="착용" style="text-align:center;"> 착용 <br>ㅤ</label>
+
+            <input type="radio" name="glasses" id="미착용" value=" ">
+            <label for="미착용" style="text-align:center;"> 미착용 <br>ㅤ</label>
+        </div><br>
+
+        </div>
+        
+        <button type="submit" class="fixed-button">
+            <img src="{% static 'init/fixed-button/done.png' %}" alt="선택 완료">
+        </button>
+    </form>
+{% endblock %}

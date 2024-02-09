@@ -1,0 +1,208 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% load func %}
+
+{% block content %}
+<div class='center'>
+
+<div style='background-image: url({% static "myapp/today/today-box.png" %}); background-repeat:no-repeat;
+background-size: 650px auto; width: 650px; height:auto;'> <!-- background-size 조절좀 하기 -->
+	
+	<!-- 제품 사진 표시 -->
+	<div><img src="{{ detail.link_img }}" alt="전통주 이미지" style='object-fit: cover; text-align:center; width: 96.2%; height: 300px; border-radius: 45px 45px 0 0; margin-top:4px; margin-bottom:40px;'></div>
+
+
+	<!-- 날짜 표시 -->
+	<div style='background-image: url({% static "myapp/home/date.png" %}); background-repeat: no-repeat; background-position: center;
+	background-size:contain; color:#FDF7F4; font-size:30px; padding: 20px; padding-top: 5px; text-align: center; margin-bottom:10px;'>
+	{{ log.date_golajum|date:'Y/m/d D' }} </div>
+
+
+	<!-- 제품명, 제품 정보 표시 -->
+	<div id='product-overview' style='margin-bottom:30px;'>
+		<div style='display:inline-block; margin:20px'>
+			<span class='pink'>
+				{% if user.username == None %}{{ user.login_id }}
+				{% else %}{{ user.username }}{% endif %}</span>님의 전통주 <br>
+			{{ detail.name }}
+		</div>
+
+		<div class='subtext' style='display:inline-block; margin:20px'>
+			{{ detail.alc_type }} <br>
+			alc {{ detail.alc_ab }}% <br>
+			{{ detail.ml|floatformat:"g" }} ml / {{ detail.price|floatformat:"g" }} won
+		</div>
+	</div>
+
+
+	<!-- 비교 레이더차트, 단신청바 상세정보 -->
+	<div id='product-dcsb' style='margin-bottom:50px; width:100%;'>
+		<div style='display:inline-block; margin-right: 30px; width:230px; vertical-align:top;'>
+			<img src="data:image/png; base64,{{ radar_chart }}" style='width:100%;' />
+		</div> <!-- 사이 margin 설정 -->
+
+		<div class='medtext' style='display:inline-block; vertical-align:top; line-height:1.5;'>
+			{% for name, field in dscb_name|zip_lists:dscb_field %}	{% with value=detail|get_attribute:field %}
+				{{ name|add_right_padding }} &nbsp;&nbsp;
+
+				{% if value is not None %}
+					{% for i in value|times %} <img src="{% static "myapp/today/1.png" %}" style='width:20px; margin:3px;'> {% endfor %}
+					{% for i in 5|sub:value|times %} <img src="{% static "myapp/today/0.png" %}" style='width:20px; margin:3px;'> {% endfor %}
+				{% else %}
+					{% for i in 5|times %} <img src="{% static "myapp/today/0.png" %}" style='width:20px; margin:3px;'> {% endfor %}
+				{% endif %} <br>
+			{% endwith %} {% endfor %}
+		</div>
+	</div>
+
+
+	<!-- 별점 -->
+	<div id='rating' style='margin-bottom:60px;'> <!-- 처음으로 1-5중 별점 매겼을 때 인증샷 overlay 하는법 공부 --> <!-- 미평가 = -1로 설정 -->
+		<!-- 그냥 오버레이 말고 별 1개씩 띄워서 별점 개수에 따라서 아래처럼 if문 걸자;;; 진짜 ㅈ같아서 못해먹겠다 -->
+
+		{% if log.rating == -1 or log.rating == None %}
+			<form id="updateForm" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="rating" id="rate">
+			
+				<div class="star-container">
+					<button type="button" class="styled-button" onclick="submitForm(1)">
+						<img src="{% static 'myapp/today/star0.png' %}" alt="1">
+					</button>
+					
+					<button type="button" class="styled-button" onclick="submitForm(2)">
+						<img src="{% static 'myapp/today/star0.png' %}" alt="2">
+					</button>
+					
+					<button type="button" class="styled-button" onclick="submitForm(3)">
+						<img src="{% static 'myapp/today/star0.png' %}" alt="3">
+					</button>
+			
+					<button type="button" class="styled-button" onclick="submitForm(4)">
+						<img src="{% static 'myapp/today/star0.png' %}" alt="4">
+					</button>
+			
+					<button type="button" class="styled-button" onclick="submitForm(5)">
+						<img src="{% static 'myapp/today/star0.png' %}" alt="5">
+					</button>
+				</div>
+			</form>
+
+			{% comment %} <!-- 별점 매기는 창 overlay 하는 버튼 -->
+			<button type="button" class='styled-button' onclick="openRatingOverlay()">
+				<img src="{% static 'myapp/today/-1-star.png' %}" alt="별점" style='width:80%;'>
+			</button> {% endcomment %}
+
+			<!-- 별점 처음으로 매겼으면 인증샷 만들어서 주기 -->
+
+		{% else %}
+			<div class="star-container">
+				{% for i in log.rating|times %} <button type="button" class="styled-button" style='cursor:default;'>
+					<img src="{% static "myapp/today/star1.png" %}"> </button> {% endfor %}
+				{% for i in 5|sub:log.rating|times %} <button type="button" class="styled-button" style='cursor:default;'>
+					<img src="{% static "myapp/today/star0.png" %}"> </button>{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+
+
+	<div id='redirect'><form method="post">
+		{% csrf_token %}
+		<input type="hidden" name="link" id="link" value="{{ link_sale }}">
+			<div class="button-container">
+				<button type="button" class='styled-button' onclick="goToLink()">
+					<img src="{% static 'myapp/today/purchase.png' %}" alt="구매처 바로가기">
+				</button>
+				
+				<button type="button" class='styled-button' onclick="openImageOverlay()">
+					<img src="{% static 'myapp/today/image.png' %}" alt="인증샷 다시보기">
+				</button>
+			</div>
+	</form></div>
+
+</div>
+
+	<div id='box-closing' style='width:650px;'> <!-- 아래에 닫는 박스 추가 -->
+		<img src='{% static "myapp/today/today-box-closing.png" %}' style='width:100%;'>
+		&nbsp;
+	</div>
+
+
+	<div id="Overlay" class="overlay">
+		<div class="overlay-content">
+			<div id="Content"></div>
+		</div>
+	</div>
+
+	<div id="blurContainer"></div>
+
+</div>
+
+	<script>
+		function goToLink() {
+			window.location.href = document.getElementById('link').value;
+		}
+
+
+		function submitForm(option) {
+			document.getElementById('rate').value = option;
+
+			// openImageOverlay 호출 전에 로컬 스토리지에 상태 저장
+			localStorage.setItem('imageOverlayState', 'open');
+
+			document.getElementById('updateForm').submit();
+		}
+
+		// 페이지 로딩 시 상태를 확인하고 필요한 작업 수행
+		document.addEventListener('DOMContentLoaded', function() {
+			var imageOverlayState = localStorage.getItem('imageOverlayState');
+			if (imageOverlayState === 'open') {
+				openImageOverlay();
+			}
+		});
+
+		
+		function openImageOverlay() {
+			// XMLHttpRequest 대신 fetch 사용 (비동기적 처리때문에 오류났었음,,)
+			fetch('{% url "myapp:image" %}')
+				.then(response => response.text())
+				.then(html => {
+					// 배경 블러 효과 보이기
+					document.getElementById('blurContainer').style.display = 'block';
+					
+					// 내용 설정 및 오버레이 보이기
+					document.getElementById('Content').innerHTML = html;
+					document.getElementById('Overlay').style.display = 'block';
+				})
+				.catch(error => console.error('콘텐츠를 가져오는 중 오류 발생:', error))
+				.finally(() => {
+					localStorage.removeItem('imageOverlayState');
+				});
+		}
+
+
+		function closeOverlay() {
+			// 배경 블러 효과와 오버레이 감추기
+			document.getElementById('blurContainer').style.display = 'none';
+			document.getElementById('Overlay').style.display = 'none';
+		}
+
+		// blurContainer에 대한 클릭 이벤트 리스너 추가하여 오버레이 외부 클릭 시 닫기
+		document.getElementById('blurContainer').addEventListener('click', function (event) {
+			if (event.target === this) {
+				closeOverlay();
+			}
+		});
+		
+		// 페이지 로딩 후 오버레이 숨기기
+		document.addEventListener('DOMContentLoaded', function() {
+			closeOverlay();
+		});
+
+	</script>
+
+</div>
+
+
+
+{% endblock %}

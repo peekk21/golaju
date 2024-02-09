@@ -1,0 +1,36 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+    <div class="question"> 어떤 종류의 술을 가장 좋아하시나요? </div><br>
+
+    <form id="updateForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="alc_type" id="alcType">
+
+        <div class="button-container">
+            <button type="button" class="styled-button" onclick="submitForm('맥주')">
+                <img src="{% static 'init/q/type-beer.png' %}" alt="맥주">
+            </button><br>
+            
+            <button type="button" class="styled-button" onclick="submitForm('소주')">
+                <img src="{% static 'init/q/type-soju.png' %}" alt="소주">
+            </button><br>
+
+            <button type="button" class="styled-button" onclick="submitForm('와인')">
+                <img src="{% static 'init/q/type-wine.png' %}" alt="와인">
+            </button> 
+        </div>
+    </form>
+</div>
+
+    <script>
+        function submitForm(option) {
+            document.getElementById('alcType').value = option;
+            document.getElementById('updateForm').submit();
+        }
+    </script>
+
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% load static %}
+
+<div style='align-items:center;'>
+
+<div style='margin-bottom:30px; text-align:left; margin-left:10px;'>
+    <span class='pink'>{% if user.username %}{{ user.username }}{% else %}{{ user.login_id }}{% endif %}</span>님의
+    {{ nth }}번째 취향 통계가 도착했습니다!<br>
+
+    <div class='medtext'> {{ date_from|date:'Y/m/d' }} - {{ date_to|date:'Y/m/d' }} </div>
+</div>
+
+<div style='display:inline-block; text-align:center;'>
+{% for name, chart in chart_list_decoded %}
+    <div style='background-image:url({% static 'myapp/chart/chart-box.png' %}); background-repeat:no-repeat;
+    width:550px; height:550px; background-size:100%; padding-top:30px; padding-bottom:10px; line-height:0.2'>
+        <span class='medtext'> {{ name }} </span>
+        <img src="data:image/png; base64,{{ chart }}" style='width:85%; margin-top:-20px;'>
+    </div>
+{% endfor %}
+</div> 
+
+</div>

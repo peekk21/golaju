@@ -1,0 +1,38 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class='input-container' style='background-image: url("/static/myapp/login/id_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center; width: 1000px'>
+            &nbsp;<input type="text" class='textbox' name="login_id"
+            style='width: 35%; height: 100%; transform: translate(15%, 50%); font-size: 28px;
+            border: none; outline: none; background: transparent; color: #1B0900; font-family: "Pretendard";'><br><br>
+        </div>
+
+        <div class='input-container' style='background-image: url("/static/myapp/login/pw_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center; width: 1000px'>
+            &nbsp;<input type="password" class='textbox' name="login_pw"
+            style='width: 35%; height: 100%; transform: translate(15%, 50%); font-size: 28px;
+            border: none; outline: none; background: transparent; color: #1B0900; font-family: "Pretendard";'><br><br>
+        </div><br>
+
+        <button type="submit" class="styled-button" style='width:300px;'>
+            <img src="{% static 'myapp/login/login-button.png' %}" alt="로그인">
+        </button><br>
+    </form>
+
+</div> 
+
+<a href="{% url 'init:begin' %}" class='fixed-button-bottom'>
+    <img src="{% static 'myapp/login/signin.png' %}" alt='계정이 없나요? 추천받고 시작하기'>
+</a><br>
+
+{% endblock %}

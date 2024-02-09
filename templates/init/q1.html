@@ -1,0 +1,43 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text">
+	<form method='post' style='text-align:center; width:900px'> <!-- action 미지정시 현재 페이지로 랜딩 -->
+		{% csrf_token %}
+
+		<div class="question" style='margin-bottom:20px;'> 연령을 선택해주세요. </div>
+		<div class="radio-button-round">
+			<input type="radio" name="age" id="20대" value="20">
+			<label for="20대"><br> 20대 <br>ㅤ</label>
+
+			<input type="radio" name="age" id="30대" value="30">
+			<label for="30대"><br> 30대 <br>ㅤ</label>
+
+			<input type="radio" name="age" id="40대" value="40">
+			<label for="40대"><br> 40대 <br>ㅤ</label>
+
+			<input type="radio" name="age" id="50대" value="50">
+			<label for="50대"><br> 50대 <br>ㅤ</label>
+
+			<input type="radio" name="age" id="60대 이상" value="60">
+			<label for="60대 이상"><br> 60대 <br> 이상 </label>
+		</div><br>
+
+		<div class="question" style='margin-bottom:20px;'> 성별을 선택해주세요. </div>
+		<div class="radio-button-wide">
+			<input type="radio" name="sex" id="male" value="male">
+			<label for="male"><br> 남자 <br>ㅤ</label>
+
+			<input type="radio" name="sex" id="female" value="female">
+			<label for="female"><br> 여자 <br>ㅤ</label>
+		</div><br>
+		
+		<button type='submit' class="fixed-button">
+			<img src="{% static 'init/fixed-button/done.png' %}" alt="선택 완료">
+		</button><br>
+	</form>
+
+</div>
+
+{% endblock %}

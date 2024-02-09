@@ -1,0 +1,116 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+	<div class='question' style='text-align:left; margin-left:10px; margin-bottom:15px;'>
+		스탬프 보드
+	</div>
+
+	<div class='stamp-box' style='display:flex; flex-wrap:wrap;
+	padding-left:20px; padding-right:20px; padding-top:40px; padding-bottom:60px;'>
+		<div>
+			{% for stamp in stamp_list %} 
+				<div style='display:inline-block; width:90px; height:90px; border-radius:50%; overflow:hidden; margin:5px;'>
+					<img src="{{ stamp }}" style='width:100%'>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class='box' id='chart' style='width:350px; display:inline-block;'>
+			{% if chart_opened %}
+            <img src="{% static 'myapp/dashboard/chart_true.png' %}" alt="10개를 모아 보세요"
+			style='width: 100%; height: auto; margin-top:1.2rem; cursor:pointer;' onclick="openChartOverlay()">
+			{% else %}
+			<img src="{% static 'myapp/dashboard/chart_false.png' %}" alt="취향 통계 보고서 확인"
+			style='width: 100%; height: auto; margin-top:1.2rem;'>
+			{% endif %}
+		</div>
+	</div><br>
+
+
+
+	<div class='question' style='text-align:left; margin-left:10px; margin-bottom:20px;'>
+		추천/평가 이력
+	</div>
+
+	{% for _, product in lists %}
+	<div class='list-box' id='list-box' value="{{ product.name }}" style='cursor:pointer;'>
+		<div id='product-img' style='width:120px; height:120px; margin:2.5rem;
+		border-radius:50%; overflow:hidden; background-color: white; border:3px solid #260D0033;'>
+			<img src="{{ product.link_img }}" alt="img" style="object-fit: contain; width: 100%; height: 100%;">
+		</div>
+
+		<div id='product-info' style='text-align:left; margin-right:2.5rem;'>
+			<div><span style='font-size:30px; '>{{ product.name }}</span>
+				<span class='subtext'>{{ product.alc_type }}</span></div>
+			<div class='subtext'> {{ product.date_golajum|date:'Y/m/d' }} - 
+				{% if product.date_rated == '미평가' %} 미평가
+				{% else %} {{ product.date_rated|date:'Y/m/d' }}
+				{% endif %}</div>
+			<div class='subtext' style='font-weight:900;'> ★ 
+				{% if product.rating == -1 %} -
+				{% else %} {{ product.rating|floatformat:"0" }}
+				{% endif %}</div>
+		</div> 
+	</div>
+	{% endfor %}
+
+	<form id="hiddenForm" method="post" style="display:none;">
+		{% csrf_token %}
+		<input type="hidden" name="productName" id="productName">
+	</form>
+
+
+	<div id="Overlay" class="overlay">
+		<div class="overlay-content">
+			<div id="Content"></div>
+		</div>
+	</div>
+
+	<div id="blurContainer"></div>
+
+
+	<script>
+		function openChartOverlay() {
+			// XMLHttpRequest 대신 fetch 사용 (비동기적 처리때문에 오류났었음,,)
+			fetch('{% url "myapp:chart" %}')
+				.then(response => response.text())
+				.then(html => {
+					// 배경 블러 효과 보이기
+					document.getElementById('blurContainer').style.display = 'block';
+					
+					// 내용 설정 및 오버레이 보이기
+					document.getElementById('Content').innerHTML = html;
+					document.getElementById('Overlay').style.display = 'block';
+				})
+				.catch(error => console.error('콘텐츠를 가져오는 중 오류 발생:', error));
+		}
+
+
+		function closeOverlay() {
+			// 배경 블러 효과와 오버레이 감추기
+			document.getElementById('blurContainer').style.display = 'none';
+			document.getElementById('Overlay').style.display = 'none';
+		}
+
+		// blurContainer에 대한 클릭 이벤트 리스너 추가하여 오버레이 외부 클릭 시 닫기
+		document.getElementById('blurContainer').addEventListener('click', function (event) {
+			if (event.target === this) {
+				closeOverlay();
+			}
+		});
+		
+		// 페이지 로딩 후 오버레이 숨기기
+		document.addEventListener('DOMContentLoaded', function() {
+			closeOverlay();
+		});
+		
+
+		document.querySelectorAll('.list-box').forEach(function(box) {
+			box.addEventListener('click', function() {
+				document.getElementById('productName').value = this.getAttribute('value');
+				document.getElementById('hiddenForm').submit();
+			});
+		});
+	</script>
+{% endblock %}

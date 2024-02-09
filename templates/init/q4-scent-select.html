@@ -1,0 +1,31 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class='question' style='text-align:center;'>
+        <br> 선호하는 향의 종류가 있나요? <br>
+        <div class='subtext'> 1개 이상 중복 선택 가능합니다. </div>
+    </div> <br>
+
+    <form class="scents" method="post" style="text-align: center; padding:20px; width:700px">
+        {% csrf_token %}
+        
+            {% for scent in scents %}
+                <label class="custom-checkbox" for="item{{ forloop.counter }}" style="display:inline-block;">
+                    <input type="checkbox" name="scent[]" id="item{{ forloop.counter }}" value="{{ scent.scent_name }}">
+                    <!-- style="display: none;" --><br>
+                    <img src="{{ scent.link_img }}" alt="{{ scent.scent_name }}"  style='height:90px;'>
+                </label>
+            {% endfor %}
+            <br>
+            
+        <button type="submit" class="fixed-button">
+            <img src="{% static 'init/fixed-button/done.png' %}" alt="선택 완료">
+        </button>
+    </form>
+
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
+
+{% endblock %}

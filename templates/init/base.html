@@ -1,0 +1,32 @@
+{% load static %}
+
+<! DOCTYPE html >
+<html lang='ko'>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.67, user-scalable=yes">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"> -->
+
+    <!-- pybo CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'init/style.css' %}">
+
+    <title>Welcome To Golaju</title>
+    <link rel="icon" href="{% static 'favicon-96x96.png' %}">
+</head>
+
+<body>
+    <!-- 최상단 이미지 -->
+    <div id="top-image"></div>
+
+    <!-- 페이지 내용 -->
+    <div class='container'>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='center'> <!-- 수평 가운데 정렬 -->
+	<div class='mypage-profile' style='margin-bottom:20px;'>
+        <div class='horizontal-container'>
+            <div class='box' id='profile-img' style='width:250px; height:250px; margin-left:2rem; margin-right:0.5rem; margin-bottom:2rem; margin-top:2.5rem;
+            border-radius:50%; overflow:hidden;'>
+                <img src="{{ profile_image }}" alt="평가 없음" style="object-fit: contain; width: 100%; height: 100%;">
+            </div>
+
+            <div class='box' id='profile-info' style='text-align:left; display:inline-block; padding:2.5rem;'>
+                <div class='medtext'>
+                    Since {{ user.date_joined|date:'Y.m.d' }} <br>
+                    <span class='pink'>{{ user.username }}</span>님 <br><br>
+
+                    골라줌 {{ golajum_count }} 회 <br>
+                    먹어봄 {{ rated_count }} 회 <br>
+                    평균 별점 ★ {{ rated_avg|floatformat:1 }}
+                </div>
+            </div>
+        </div>
+
+        <div class='box' id='logout' style='width:300px; display:inline-block;'>
+            <a href="{% url 'myapp:logout' %}">
+            <img src="{% static 'myapp/mypage/logout.png' %}" alt="로그아웃" style='width: 100%; height: auto; margin-top:1.5rem; margin-bottom:2.5rem;'>
+        </a></div>
+	</div>
+
+    <div class='mypage-appearance'>
+        <a href="{% url 'myapp:appearance' %}"> <img src="{% static 'myapp/mypage/appearance.png' %}" alt="외형정보 입력하기" style='width: 100%; height: auto;'> </a>
+    </div>
+</div>
+{% endblock %}

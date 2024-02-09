@@ -1,0 +1,36 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+    <div class="question">
+        오랜만에 친구들과 홈파티!
+        <br> 색다른 술을 시도해보려고 합니다.
+        <br>
+        <br> 나는 전통주를 구매할 때... <br>
+    </div><br>
+
+    <form id="updateForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="CE_good_bool" id="input">
+
+        <div class="button-container-vert">
+            <button type="button" class="styled-button" onclick="submitForm(1)">
+                <img src="{% static 'init/q/CE_good.png' %}" alt="편의점 맥주 정도의 가격이면 사볼래!">
+            </button>
+            
+            <button type="button" class="styled-button" onclick="submitForm(0)">
+                <img src="{% static 'init/q/CE_nevermind.png' %}" alt="크게 상관 없어! 맛이 더 중요하지!">
+            </button>
+        </div>
+    </form>
+</div>
+
+    <script>
+        function submitForm(option) {
+            document.getElementById('input').value = option;
+            document.getElementById('updateForm').submit();
+        }
+    </script>
+    
+{% endblock %}

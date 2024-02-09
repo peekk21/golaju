@@ -1,0 +1,17 @@
+{% load static %}
+
+<div>
+    {% if not rated %}
+        <div class='subtext' style='padding:20px;'>
+            최초 <span class='pink'>평점</span>을 등록하시면 <br>
+            그에 어울리는 <span class='pink'>인증샷</span>을 만들어드려요!
+        </div>
+
+    {% else %}
+        <div class='subtext'>
+            <span class='pink'>{{ user.username }}</span>님과 <span class='pink'>{{ log.name }}</span>의 인증샷을 저장해보세요!
+        </div>
+        <img src="{{ image }}" style='width:90%;'><br>
+        
+    {% endif %}
+</div>

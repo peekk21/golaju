@@ -1,0 +1,51 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+	<div class="question">
+        {% if session_login_id == None %} <!-- 최초 추천 -->
+            평소에 좋아하는 전통주가 있나요?
+        {% else %} <!-- 다시 골라주 -->
+            어떤 술에서 다시 골라볼까요?
+        {% endif %} </div> <br>
+
+    <form id="updateForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="jtj" id="jtj">
+
+		<div class="button-container">
+            {% if session_login_id == None %} <!-- 최초 추천 -->
+                <button type="button" class="styled-button" onclick="submitForm('Yes')">
+                    <img src="{% static 'init/q/love_jtj.png' %}" alt="네">
+                </button><br>
+                
+                <button type="button" class="styled-button" onclick="submitForm('No')">
+                    <img src="{% static 'init/q/dontknow_jtj.png' %}" alt="아니요">
+                </button>
+
+            {% else %} <!-- 다시 골라주 -->
+                <button type="button" class="styled-button" onclick="submitForm('No')">
+                    <img src="{% static 'init/q/again_jtj_no.png' %}" alt="맥주ㆍ소주ㆍ와인">
+                </button><br>
+                
+                <button type="button" class="styled-button" onclick="submitForm('Yes')">
+                    <img src="{% static 'init/q/again_jtj_yes.png' %}" alt="기본 제공 전통주">
+                </button><br>
+
+                <button type="button" class="styled-button" onclick="submitForm('List')">
+                    <img src="{% static 'init/q/again_jtj_list.png' %}" alt="추천 받았던 전통주">
+                </button>
+            {% endif %}
+		</div>
+    </form>
+</div>
+
+    <script>
+        function submitForm(option) {
+            document.getElementById('jtj').value = option;
+            document.getElementById('updateForm').submit();
+        }
+    </script>
+{% endblock %}
+

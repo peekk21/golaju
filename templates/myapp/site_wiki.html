@@ -1,0 +1,46 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div>{% if user.username == None %}{{ user.login_id }}
+    {% else %}{{ user.username }}{% endif %}님 주변의 양조장을 찾아보세요! </div><br>
+
+<div id="map" style="width:800px; height:800px;"> </div>
+
+<script>
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.5112, 127.0981), // 지도의 초기 중심 좌표
+        zoom: 7
+    });
+
+    // 위치와 이름을 가진 데이터
+    var sites = [
+        {% for loc in sites %}
+        { name: '{{ loc.name }}', latitude: {{ loc.latitude }}, longitude: {{ loc.longitude }} },
+        {% endfor %}
+    ];
+
+    // 데이터를 기반으로 마커와 정보창 생성
+    for (var i = 0; i < sites.length; i++) {
+        (function() { // 클로저 함수를 추가
+            var site = sites[i];
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(site.latitude, site.longitude),
+                map: map
+            });
+
+            // 정보창 생성
+            var infoWindow = new naver.maps.InfoWindow({
+                content: '<div style="padding-left:10px; padding-right:10px; font-size:26px;">' + site.name + '</div>', // 나중에 다른정보도 보이게 수정
+            });
+
+            // 마커를 클릭하면 정보창을 열도록 설정
+            naver.maps.Event.addListener(marker, 'click', function() {
+                infoWindow.open(map, marker);
+            });
+        })();
+    }
+</script>
+
+{% endblock %}

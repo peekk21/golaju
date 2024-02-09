@@ -1,0 +1,61 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class='question' style='text-align:center;'>
+        <br><br> 마음에 들었던 전통주를 골라주세요! <br>
+        <div class='subtext'> 1개 이상 중복 선택 가능합니다. </div>
+    </div> <br>
+
+    <form class="alc-product" method="post" style="text-align: center;">
+        {% csrf_token %}
+        
+            {% for _, product in lists %}
+            <label class='home-product' for="item{{ forloop.counter }}"> 
+                <input type="checkbox" name="input[]" id="item{{ forloop.counter }}" value="{{ product.name }}">
+
+                <div id='list-box' style="width:700px; height:200px; display:flex; align-items:center; text-align:center; margin-bottom:20px;
+                background-image:url({% static "init/alc_products/list-box.png" %}); background-size:cover; background-repeat: no-repeat;">
+
+                    <div id='product-img' style='width:120px; height:120px; margin:2.5rem;
+                    border-radius:50%; overflow:hidden; background-color: white; border:3px solid #260D0033;'>
+                        <img src="{{ product.link_img }}" alt="img" style="object-fit: contain; width: 100%; height: 100%;">
+                    </div>
+
+                    <div id='product-info' style='text-align:left; margin-right:2.5rem;'>
+                        <div>
+                            <span style='font-size:30px; '>{{ product.name }}</span>
+                            <span class='subtext'>{{ product.alc_type_x }}</span>
+                        </div>
+                        <div class='subtext'> {{ product.date_golajum|date:'Y/m/d' }} - 
+                            {% if product.date_rated == '미평가' %}
+                                미평가
+                            {% else %}
+                                {{ product.date_rated|date:'Y/m/d' }}
+                            {% endif %}</div>
+                        <div class='subtext' style='font-weight:900;'> ★ 
+                            {% if product.rating == -1 %}
+                                -
+                            {% else %}
+                                {{ product.rating|floatformat:"0" }}
+                            {% endif %}</div>
+                    </div> 
+
+                </div>
+            </label>
+            {% endfor %}
+
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% endif %}
+
+            <br><br>
+            
+        <button type="submit" class="fixed-button">
+            <img src="{% static 'init/fixed-button/done.png' %}" alt="선택 완료">
+        </button>
+    </form>
+
+
+
+{% endblock %}

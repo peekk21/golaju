@@ -1,0 +1,52 @@
+{% load static %}
+
+<! DOCTYPE html >
+<html lang='ko'>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.67, user-scalable=yes">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"> -->
+
+    <!-- pybo CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
+
+    <title>Golaju App</title>
+    <link rel="icon" href="{% static 'favicon-96x96.png' %}">
+
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jwxtojirim"></script>
+</head>
+
+<body>
+    <!-- 최상단 이미지 -->
+    <div id="top-image" style='color:#FFFCFB;'>
+        <p style='margin-top: 30;'>
+            {% if user.username != None %}
+                <span class='pink'>{{ user.username }}</span>님, 골라주가 골라 드렸어요!
+            {% else %}
+                <span class='pink'>{{ user.login_id }}</span>님, 골라주가 골라 드렸어요!
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- 페이지 내용 -->
+    <div class='container'>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- 네비게이션바 -->
+    <nav class="navbar">
+        <a href="{% url 'myapp:home' %}" class="icon-link" style="background-image: url({{ nav_img_home }})"></a>
+        <a href="{% url 'myapp:today' %}" class="icon-link" style="background-image: url({{ nav_img_today }})"></a>
+        <a href="{% url 'myapp:dashboard' %}" class="icon-link" style="background-image: url({{ nav_img_dashboard }})"></a>
+    </nav>
+    
+    <!-- logout 구현 -->
+
+</body>
+
+</html>

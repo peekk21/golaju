@@ -1,0 +1,31 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+    <div class="question"> 술을 선택할 때 알코올 도수가 <br> 얼마나 중요한가요? </div><br>
+
+    <form id="updateForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="alc_range_bool" id="input">
+
+        <div class="button-container-vert">
+            <button type="button" class="styled-button" onclick="submitForm(0)">
+                <img src="{% static 'init/q/alc_ab.png' %}" alt="평소에 먹던 것과 비슷한 도수면 좋겠어!">
+            </button>
+            
+            <button type="button" class="styled-button" onclick="submitForm(1)">
+                <img src="{% static 'init/q/alc_range.png' %}" alt="다양한 시도를 위해서 다른 도수도 괜찮아!">
+            </button>
+        </div>
+    </form>
+</div>
+
+    <script>
+        function submitForm(option) {
+            document.getElementById('input').value = option;
+            document.getElementById('updateForm').submit();
+        }
+    </script>
+    
+{% endblock %}

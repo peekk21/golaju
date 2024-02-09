@@ -1,0 +1,59 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text'>
+    <div class="question">
+        {% if type != 'only_soju' %} <!-- 논쏘주 1개 이상 있을 경우에 띄우기 -->
+            추천받고 싶은 전통주의 종류를 골라주세요!
+        {% else %} <!-- 증류주만 1개 이상 있을 경우에 띄우기 -->
+            증류주를 추천해드릴게요!
+        {% endif %}
+    </div><br>
+
+    <form id="updateForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="alc_type" id="alcType">
+
+        <div class="button-container">
+            {% if type == 'only_soju' %} <!-- 증류주만 있을 때는 스킵버튼 띄우기 -->
+                <button type="button" class="styled-button" onclick="submitForm('증류주')">
+                    <img src="{% static 'init/q/next-jr.png' %}" alt="NEXT">
+                </button>
+            
+            {% else %} <!-- 논쏘주 1개이상 있을 경우에 띄우기 -->
+                {% if type == 'both' %} <!-- 선택된 목록에 증류주 1개이상 -->
+                <button type="button" class="styled-button" onclick="submitForm('증류주')">
+                    <img src="{% static 'init/q/type-jr.png' %}" alt="증류주">
+                </button><br>
+                {% endif %}
+            
+                <button type="button" class="styled-button" onclick="submitForm('탁주')">
+                    <img src="{% static 'init/q/type-tak.png' %}" alt="탁주">
+                </button><br>
+
+                <button type="button" class="styled-button" onclick="submitForm('약주')">
+                    <img src="{% static 'init/q/type-yak.png' %}" alt="약주">
+                </button><br>
+
+                <button type="button" class="styled-button" onclick="submitForm('과실주')">
+                    <img src="{% static 'init/q/type-fruit.png' %}" alt="과실주">
+                </button><br>
+
+                <button type="button" class="styled-button" onclick="submitForm('랜덤')">
+                    <img src="{% static 'init/q/type-random.png' %}" alt="랜덤">
+                </button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+    <script>
+        function submitForm(option) {
+            document.getElementById('alcType').value = option;
+            document.getElementById('updateForm').submit();
+        }
+    </script>
+
+{% endblock %}
+

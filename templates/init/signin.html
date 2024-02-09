@@ -1,0 +1,82 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class='text'>
+	{% if error_message %}
+		<p class="error">{{ error_message }}</p>
+	{% endif %}
+
+	<form method='post' style='width:500px;'>
+		{% csrf_token %}
+
+		<!-- {{ form.as_p }}-->
+		<!-- 경고문구는 안뜨지만 일단일단.. ^^ -->
+		<div class='input-container' style='background-image: url("/static/init/signin/id_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center;'>
+			{{ form.아이디 }}
+			<br><br>
+		</div>
+
+		<div class='input-container' style='background-image: url("/static/init/signin/nickname_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center;'>
+			{{ form.닉네임 }}
+			<br><br>
+		</div>
+
+		<div class='input-container' style='background-image: url("/static/init/signin/pw_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center;'>
+			{{ form.비밀번호 }}
+			<br><br>
+		</div>
+
+		<div class='input-container' style='background-image: url("/static/init/signin/pw_confirm_input.png");
+        background-size: contain; background-repeat: no-repeat; background-position: center;'>
+			{{ form.비밀번호_확인 }}
+			<br><br>
+		</div><br>
+
+		<button type="submit" class="styled-button" style='width:300px;'>
+			<img src="{% static 'init/fixed-button/signin-button.png' %}" alt="회원가입">
+		</button><br>
+	</form>
+
+</div><br>
+
+<a href="{% url 'myapp:login' %}" class='fixed-button-bottom'> <!-- width 재설정해서 좀 작게 아 근데 init에있는데 어케반영되는거임 신기하네.. -->
+	<img src="{% static 'init/fixed-button/login_reset.png' %}" alt='이미 계정이 있나요? 결과 초기화하고 로그인하기'>
+</a>
+
+	{% comment %} <div style="background-color:#0d47a1;">
+		<h1>좋아하는 맥주와 중요시 하는 취향을 선택해주세요.</h1>
+	</div>
+
+	<div id = 'contents' style="text-align:center;">
+		<img id="img1" src="static/img/Beer.jfif">
+		<div>
+			<form method="POST">
+				<br>
+				{% csrf_token %}
+				아이디 :
+				<input type="text" name="name"><br><br>
+
+				맥주 :
+				<select name="beer">
+					{% for tmp in beer_list %}
+						<option value='{{tmp}}'>{{tmp}}</option>
+					{% endfor %}
+				</select><br><br>
+				취향 :
+				<select name="detail">
+					<option value="Flavor">맛</option>
+					<option value="Aroma">향</option>
+					<option value="Mouthfeel">목넘김</option>
+				</select><br><br>
+				<input class="btn btn-success" type="submit" value="Pick!">
+			</form>
+		</div>
+	</div> {% endcomment %}
+
+
+{% endblock %}

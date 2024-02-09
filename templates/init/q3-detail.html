@@ -1,0 +1,34 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+	<div class='question' style='text-align:center;'>
+        <br><br> 즐겨 마시는 <span class='pink'>{{ golajum.alc_type }}</span>의 종류를 알려주세요! <br>
+        <div class='subtext'> 1개 이상, 3개 이하 선택 가능합니다. </div>
+    </div> <br>
+
+    <form class="alc-product" method="post" style="text-align: center;">
+        {% csrf_token %}
+        
+            {% for product in inputs %}
+                <label class="custom-checkbox" for="item{{ forloop.counter }}">
+                    <input type="checkbox" name="input[]" id="item{{ forloop.counter }}" value="{{ product.name }}">
+                    <!-- style="display: none;" -->
+                    <img src="/static/init/alc_products/{{ product.name }}.png" alt="{{ product.name }}" style='width:45%;'>
+                </label>
+                
+                <!-- 두개에 한번씩 줄바꾸기 -->
+                {% if forloop.counter|divisibleby:2 %} <div></div> {% endif %}
+            {% endfor %}
+            <br>
+            
+        <button type="submit" class="fixed-button">
+            <img src="{% static 'init/fixed-button/done.png' %}" alt="선택 완료">
+        </button>
+    </form>
+
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
+
+{% endblock %}

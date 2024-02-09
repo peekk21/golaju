@@ -1,0 +1,38 @@
+{% extends 'init/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class='text' style='justify-content:center; align-items:center; text-align:center;'>
+	나만의 <span class='pink'>취향저격</span> 전통주는...<br>
+
+	<!-- 최종 추천 전통주 정보 노출 -->
+	<div style='width: 350px; height: 350px; border-radius: 50%; margin-bottom: 50px; margin-top: 50px; transform: translateX(50%);
+	display:flex; justify-content:center; align-items:center; text-align:center;
+	overflow: hidden; background-color: white; border:2px solid #260D0033;'>
+		<img src='{{ 사진 }}' style='object-fit: contain; width: 100%; height: 100%;'>
+	</div>
+	
+	<div>
+		<span style='font-weight:900;'> {{ 이름 }} </span>
+		<span class='subtext'> {{ 주종 }} </span>
+	</div>
+
+	<div class='subtext'>
+		alc {{ 도수 }}% <br>
+		{{ 용량|floatformat:"g" }} ml / {{가격|floatformat:"g"}} won
+	</div><br>
+
+	
+	<!-- 다음 단계 안내 버튼 -->
+	<div style='width:700px'>
+	{% if golajum.login_id == None %}
+		<a href="{% url 'init:signin' %}" class='width:500px;'>
+			<img src="{% static 'init/fixed-button/start-button.png' %}" style='width:70%' alt="추천결과 저장하고 시작하기"> </a>
+	{% else %}
+		<a href="{% url 'init:save' %}" style='width:700px;'>
+			<img src="{% static 'init/fixed-button/save-button.png' %}" style='width:70%' alt="저장하고 홈으로 돌아가기"> </a>
+	{% endif %}
+	</div>
+</div>
+{% endblock %}
+
