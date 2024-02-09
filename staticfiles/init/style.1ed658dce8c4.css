@@ -1,0 +1,266 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url("../PretendardVariable.c7322616ddf9.ttf");
+}
+
+
+/* * {
+    margin-left: 10px;
+    margin-right: 10px;
+} */
+
+
+body {
+    background-image: url("base/bg.e602c7465c8b.png"); /* Replace with the path to your image */
+    background-size: cover;
+
+    font-family: 'Pretendard';
+    font-weight: 700;
+    letter-spacing: -2px;
+    color: #1B0900;
+    font-size: 35px;
+    line-height: 1.5;
+    text-align: center;
+
+    margin: 0; /* Remove any default margin */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.text {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.subtext {
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 1.3;
+}
+
+.pink {
+    color:#C36576;
+}
+
+
+
+/* Top image styles */
+#top-image {
+    position: fixed;
+    z-index: 1000;
+
+    background-image: url("base/top-init.1a5ac33314f7.png");
+    background-repeat: no-repeat; /* Do not repeat the background image */
+    background-size: contain;
+    background-position: center; /* Center the background image */
+
+    top: -1%;
+    margin-bottom: 10vh;
+    
+    width: 100%;
+    min-height: 100px; /* 최소한 화면의 높이만큼은 보이도록 함 */   
+}
+
+
+/* 다시골라주 기존 리스트 */
+.home-product {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+
+    width: 570px;
+    height: auto; 
+}
+
+
+
+
+/* 버튼 스타일 */
+.fixed-button {
+    position: fixed;
+    z-index: 1000;
+
+    bottom: 0%;
+    transform: translateX(-50%);
+
+    height: 100px; 
+    width: auto;
+
+    background: none;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box; /* 박스 크기를 테두리와 안쪽 여백을 포함하여 계산 */
+}
+
+.fixed-button img {
+    height: 100%; /* 높이 기준 */
+    width: auto;
+}
+
+.fixed-button-top {
+    position: fixed;
+
+    top: 15%; /* div.text 안에 들어왔다면 이미 수직 가운데 정렬된 상태의 top이므로 훨씬 올려줘야 함 */
+    right: 2%;
+
+    height: 30px; 
+    width: auto;
+
+    background: none;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box; /* 박스 크기를 테두리와 안쪽 여백을 포함하여 계산 */
+}
+
+.fixed-button-top img {
+    width: 100%; /* 너비 기준 */
+    height: auto;
+}
+
+.fixed-button-bottom {
+    position: fixed;
+
+    bottom: 25%; /* div.text 안에 들어왔다면 이미 수직 가운데 정렬된 상태의 top이므로 훨씬 올려줘야 함 */
+    transform: translateX(-50%);
+
+    height: 30px; 
+    width: auto;
+
+    background: none;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box; /* 박스 크기를 테두리와 안쪽 여백을 포함하여 계산 */
+}
+
+.fixed-button-bottom img {
+    width: 100%; /* 너비 기준 */
+    height: auto;
+}
+
+
+.button-container-vert {
+    display: flex;
+    justify-content: center; /* 또는 space-around을 사용하여 간격 조절 */
+    align-items: center;
+    flex-wrap: nowrap;
+
+    margin: 1;
+    width: 600px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* 또는 space-around을 사용하여 간격 조절 */
+    align-items: center;
+    flex-wrap: wrap;
+
+    flex-shrink: 0;
+    width: 600px;
+
+    margin: 1;
+}
+
+.styled-button {
+    background: none;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box; /* 박스 크기를 테두리와 안쪽 여백을 포함하여 계산 */
+}
+
+.styled-button img {
+    width: 100%; /* 너비 기준 */
+    height: auto;
+}
+
+
+
+.radio-button-round input[type="radio"]  {
+    display: none;
+}
+
+.radio-button-round input[type="radio"] + label {
+    display: inline-block;
+    vertical-align: top;
+
+    background: url("button/round-button.23b72a57abc1.png") no-repeat;
+    background-size: contain;
+
+    margin: 10px;
+
+    width: 100px; /* 이미지의 너비에 맞게 조절하세요 */
+    height: auto;
+    font-size: 2rem;
+}
+
+.radio-button-round input[type="radio"]:checked + label {
+    display: inline-block;
+    vertical-align: top;
+
+    background: url("button/round-button-clicked.e350210723ac.png") no-repeat;
+    background-size: contain;
+
+    margin: 10px;
+
+    width: 100px; /* 이미지의 너비에 맞게 조절하세요 */
+    height: auto;
+    font-size: 2rem;
+}
+
+
+.radio-button-wide input[type="radio"]  {
+    display: none;
+}
+
+.radio-button-wide input[type="radio"] + label {
+    display: inline-block;
+    vertical-align: top;
+
+    background: url("button/wide-button.c17f9a188fc0.png") no-repeat;
+    background-size: contain;
+
+    margin: 10px;
+
+    width: 200px; /* 이미지의 너비에 맞게 조절하세요 */
+    height: auto;
+    font-size: 2rem;
+}
+
+.radio-button-wide input[type="radio"]:checked + label {
+    display: inline-block;
+    vertical-align: top;
+
+    background: url("button/wide-button-clicked.096f0aa47cea.png") no-repeat;
+    background-size: contain;
+
+    margin: 10px;
+
+    width: 200px; /* 이미지의 너비에 맞게 조절하세요 */
+    height: auto;
+    font-size: 2rem;
+}
+
+
+.custom-checkbox label {
+    display: inline-block;
+    position: relative;
+    margin: 1px; /* 각 이미지 간격 조절 */
+    width: 50%;
+    height: auto;
+}
+
+
+
+
+/* 에러 떴을 때 */
+ul.errorlist {
+    list-style-type: none;  /* 리스트 마크 제거 */
+    padding: 0;  /* 패딩 제거 또는 조절 */
+    margin: 0;  /* 마진 제거 또는 조절 */
+}
+
+ul.errorlist li {
+    display: inline;  /* 에러 메시지를 별도의 줄로 표시하지 않음 */
+}

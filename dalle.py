@@ -3,7 +3,7 @@ import json
 import requests
 
 def dalle(prompt, shot_name):
-    # API KEY 가져오기
+    # API KEY 가져오기 (요금제 끝나서 KEY 바꿔야함 ㅋㅋ)
     OPENAI_API_KEY = "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"
 
     # API 엔드포인트(API에서 제공하는 서비스의 특정 부분) 요청

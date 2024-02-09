@@ -1,4 +1,4 @@
-from multiselectfield import MultiSelectField # pip install django-multiselectfield
+# from multiselectfield import MultiSelectField # pip install django-multiselectfield
 from django.db import models
 
 # Create your models here.
